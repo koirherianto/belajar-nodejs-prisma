@@ -21,6 +21,7 @@ model Product {
   price Int @db.Int
   stock Int @db.SmallInt
   category String @db.VarChar(100)
+  likedBy Like[]
 
   @@map("products")
 }
@@ -40,6 +41,7 @@ model Customer {
   phone String @unique
   wallet Wallet?
   comments Comment[]
+  likes Like[]
 
   @@map("customers")
 }
@@ -59,4 +61,18 @@ model Comment {
   description String
   customer_id Int
   customer Customer @relation(fields: [customer_id], references: [id])
+
+  @@map("comments")
+}
+
+model Like {
+  customer_id Int 
+  product_id Int
+
+  customer Customer @relation(fields: [customer_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id])
+
+  @@id([customer_id,product_id])
+
+  @@map("likes")
 }
