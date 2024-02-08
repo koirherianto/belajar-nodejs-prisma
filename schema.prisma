@@ -15,15 +15,6 @@ model sample {
   name String
 }
 
-model Costumer {
-  id Int @id @default(autoincrement())
-  name String
-  email String @unique
-  phone String @unique
-
-  @@map("costumers")
-}
-
 model Product {
   id Int @id @default(autoincrement()) @db.UnsignedInt
   name String @db.VarChar(100)
@@ -39,4 +30,33 @@ model category {
   name String @db.VarChar(100)
 
   @@map("categories")
+}
+
+//one to one relasi
+model Customer {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  phone String @unique
+  wallet Wallet?
+  comments Comment[]
+
+  @@map("customers")
+}
+
+model Wallet {
+  id Int @id @default(autoincrement())
+  balance Int @db.Int
+  costumer_id Int @unique @db.Int
+  costumer Customer @relation(fields: [costumer_id],references: [id])
+
+  @@map("wallets")
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(100)
+  description String
+  customer_id Int
+  customer Customer @relation(fields: [customer_id], references: [id])
 }
