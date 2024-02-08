@@ -12,7 +12,7 @@ datasource db {
 
 model sample {
   id String @id
-  name String
+  name String @db.VarChar(100)
 }
 
 model Product {
@@ -37,7 +37,7 @@ model category {
 //one to one relasi
 model Customer {
   id Int @id @default(autoincrement())
-  name String
+  name String @db.VarChar(100)
   email String @unique
   phone String @unique
   wallet Wallet?
