@@ -22,6 +22,7 @@ model Product {
   stock Int @db.SmallInt
   category String @db.VarChar(100)
   likedBy Like[]
+  lovedBy Customer[] @relation("loves")
 
   @@map("products")
 }
@@ -42,6 +43,7 @@ model Customer {
   wallet Wallet?
   comments Comment[]
   likes Like[]
+  loves Product[] @relation("loves")
 
   @@map("customers")
 }
@@ -73,6 +75,12 @@ model Like {
   product Product @relation(fields: [product_id], references: [id])
 
   @@id([customer_id,product_id])
-
   @@map("likes")
 }
+
+// peraturan membuat relasi many to many otomatis di prisma
+// nama tablenya harus pakai _ contoh _loves
+// nama field nya harus a dan b
+// a dan b harus terhubung dengan table yang namanya ascending
+// contoh customer harus terhubung ke a dan product harus terhubung ke b karna c lebih dahulu dari p
+
