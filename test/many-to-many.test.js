@@ -82,4 +82,24 @@ describe('Many To Many', () => {
         console.log(customers);
         console.log(JSON.stringify(customers));
     });
+
+    it('find many implicit relation', async () => {
+        const customers = await prismaClient.customer.findMany({
+            where : {
+                loves : {
+                    some : {
+                        name : {
+                            contains : 'key'
+                        }
+                    }
+                }
+            },
+            include : {
+                loves : true
+            }
+        });
+
+        console.log(customers);
+        console.log(JSON.stringify(customers));
+    });
 });
